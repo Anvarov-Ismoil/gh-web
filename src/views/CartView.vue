@@ -7,7 +7,6 @@
       <div class="flex-grow text-center">
         <h1 class="text-3xl font-bold underline text-center my-2">
           {{ lang === 'ru' ? 'Корзина' : 'Savat' }}
-          {{ tgId }} {{ tgUser }}
         </h1>
       </div>
     </div>
@@ -52,6 +51,7 @@
         </h1>
       </div>
     </div>
+    <pre>{{ tgId }} {{ tgUser }}</pre>
     <div class="cart p-3 pt-1 bg-zinc-500 fixed bottom-0 left-0 w-full">
       <div class="flex justify-between items-center mb-1 text-white  text-xl px-1">
         <h1 class="font-semibold">{{ lang === 'ru' ? 'Общая сумма:' : 'Umumiy narx:' }}</h1>
