@@ -130,6 +130,14 @@ export default {
         this.array[idx].count = count
         this.array[idx].cost = cost
       }
+
+      const telegram = window.Telegram.WebApp;
+      const telegramData = telegram.initDataUnsafe
+      const userId = telegramData.user.id
+
+      this.tgId = userId
+      this.tgUser = telegramData
+
     },
     subtractPrice(price, count, idx, cost, id) {
       if (count > 1) {
