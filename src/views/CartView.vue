@@ -7,6 +7,7 @@
       <div class="flex-grow text-center">
         <h1 class="text-3xl font-bold underline text-center my-2">
           {{ lang === 'ru' ? 'Корзина' : 'Savat' }}
+          {{ tgId }} {{ tgUser }}
         </h1>
       </div>
     </div>
@@ -55,10 +56,10 @@
       <div class="flex justify-between items-center mb-1 text-white  text-xl px-1">
         <h1 class="font-semibold">{{ lang === 'ru' ? 'Общая сумма:' : 'Umumiy narx:' }}</h1>
         <h3 class="font-bold">
-          {{ countTotalPrice }} 
+          {{ countTotalPrice }}
         </h3>
       </div>
-      
+
       <div class="btns flex gap-2 bg-zinc-500">
         <button
           class="py-3 w-1/2 text-white  text-base font-semibold uppercase rounded-lg flex items-start justify-center gap-3"
@@ -88,6 +89,8 @@ export default {
       model: '',
       counter: null,
       answer: {},
+      tgId: 'ID',
+      tgUser: 'Yoq',
     }
   },
   computed: {
@@ -101,7 +104,7 @@ export default {
     },
     countTotalPrice() {
       const cart = this.array
-      if(cart) {
+      if (cart) {
         let totalPrice = 0
         cart.forEach(item => {
           let price = 0
@@ -161,6 +164,33 @@ export default {
         });
 
         const telegram = await window.Telegram.WebApp;
+        const telegramData = telegram.initDataUnsafe
+        const userId = telegramData.user.id
+
+        this.tgId = userId
+        this.tgUser = telegramData
+
+        if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
+          console.log(`You can't send without ID`);
+        } else {
+          let method = "sendInvoice"
+          let botToken = '6424694422:AAF_m-HLRElxbiALH1yvhLMf2NAqe-aTXqk'
+          try {
+            const response = await fetch(`https://api.telegram.org/bot${botToken}/${method}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(this.array),
+            });
+            const data = await response.json();
+            return data;
+          } catch (error) {
+            console.error(error);
+          }
+          telegram.expand()
+        }
+
         telegram.sendData(JSON.stringify(this.array));
         telegram.expand();
         telegram.close();
