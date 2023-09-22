@@ -51,7 +51,6 @@
         </h1>
       </div>
     </div>
-    <pre>{{ tgId }} {{ tgUser }}</pre>
     <div class="cart p-3 pt-1 bg-zinc-500 fixed bottom-0 left-0 w-full">
       <div class="flex justify-between items-center mb-1 text-white  text-xl px-1">
         <h1 class="font-semibold">{{ lang === 'ru' ? 'Общая сумма:' : 'Umumiy narx:' }}</h1>
@@ -90,7 +89,6 @@ export default {
       counter: null,
       answer: {},
       tgId: 'ID',
-      tgUser: 'Yoq',
     }
   },
   computed: {
@@ -122,7 +120,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['postData', 'clearCart', 'setCartItem', 'refreshCart']),
+    ...mapActions(['postData', 'clearCart', 'setCartItem', 'refreshCart', 'postData']),
     countPrice(price, count, idx, cost, id) {
       if (id) {
         count++
@@ -130,14 +128,6 @@ export default {
         this.array[idx].count = count
         this.array[idx].cost = cost
       }
-
-      const telegram = window.Telegram.WebApp;
-      const telegramData = telegram.initDataUnsafe
-      const userId = telegramData.user.id
-
-      this.tgId = userId
-      this.tgUser = telegramData
-
     },
     subtractPrice(price, count, idx, cost, id) {
       if (count > 1) {
@@ -171,38 +161,35 @@ export default {
           item.price = parseInt(item.price.split(' ').join(''))
         });
 
+
         const telegram = await window.Telegram.WebApp;
-        const telegramData = telegram.initDataUnsafe
-        const userId = telegramData.user.id
-
+        const telegramData = await telegram.initDataUnsafe;
+        // const userId = telegramData.user?.id;
+        const userId = 596968325
         this.tgId = userId
-        this.tgUser = telegramData
 
-        if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
-          console.log(`You can't send without ID`);
-        } else {
-          let method = "sendInvoice"
-          let botToken = '6424694422:AAF_m-HLRElxbiALH1yvhLMf2NAqe-aTXqk'
+        if (userId) {
           try {
-            const response = await fetch(`https://api.telegram.org/bot${botToken}/${method}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(this.array),
-            });
-            const data = await response.json();
-            return data;
+            const payload = {
+              telegram_id: userId,
+              data: JSON.stringify(this.array),
+            };
+            await this.postData(payload);
+            this.clearCart();
+            telegram.expand()
+            telegram.close();
+            localStorage.clear();
+            this.$router.push({ name: 'home' });
           } catch (error) {
             console.error(error);
           }
-          telegram.expand()
+          return
+        } else {
+          telegram.sendData(JSON.stringify(this.array));
+          telegram.expand();
+          telegram.close();
+          localStorage.clear();
         }
-
-        telegram.sendData(JSON.stringify(this.array));
-        telegram.expand();
-        telegram.close();
-        localStorage.clear();
 
       } catch (error) {
         console.error("Error sending data:", error);
