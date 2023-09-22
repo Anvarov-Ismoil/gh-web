@@ -112,7 +112,7 @@ export default createStore({
       commit
     }, payload) {
       try {
-        const response = await fetch('https://apivilagro.supersite.uz/order/', {
+        const response = await fetch('https://grandhallbackend.supersite.uz/or/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
