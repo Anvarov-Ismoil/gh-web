@@ -11,6 +11,9 @@
       </div>
     </div>
     <div class="wrapper pb-[150px] overflow-y-scroll">
+      <pre class="text-center">
+        {{ test }}
+      </pre>
       <div v-if="array.length" class="content">
         <div class="card flex items-start justify-center flex-wrap gap-7 py-3 border-b-2" v-for="(card, idx) in array"
           :key="card.id">
@@ -89,6 +92,7 @@ export default {
       counter: null,
       answer: {},
       tgId: 'ID',
+      test: 'test',
     }
   },
   computed: {
@@ -163,8 +167,8 @@ export default {
 
         const telegram = await window.Telegram.WebApp;
         const telegramData = await telegram.initDataUnsafe;
-        // const userId = telegramData.user?.id;
-        const userId = 596968325
+        const userId = telegramData.user?.id;
+        // const userId = 596968325
         this.tgId = userId
 
         if (userId) {
@@ -173,7 +177,7 @@ export default {
             telegram_id: userId,
             data: JSON.stringify(this.array),
           };
-          this.$router.push({ name: 'home' });
+          // this.$router.push({ name: 'home' });
           localStorage.clear();
           // if (res) {
           telegram.expand()
@@ -186,7 +190,8 @@ export default {
           // }
           // return
         } else {
-          telegram.sendData(JSON.stringify(this.array));
+          telegram.sendData(JSON.stringify(this.array))
+          this.test = telegram.sendData(this.array.data)
           telegram.expand();
           telegram.close();
           localStorage.clear();
@@ -197,7 +202,7 @@ export default {
       }
 
       this.clearCart();
-      this.$router.push({ name: 'home' });
+      // this.$router.push({ name: 'home' });
     },
   },
   mounted() {

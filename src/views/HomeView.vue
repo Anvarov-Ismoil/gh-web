@@ -24,7 +24,6 @@
           </button>
         </div>
         <pre class="text-center">{{ isUserRegistered }} </pre>
-        <pre class="text-center">{{ test }}</pre>
         <div class="flex flex-wrap justify-center items-stretch gap-x-5">
           <categoryCard v-for="card in data" :info="card" :key="card.id" :lang="this.userLang" @action="$router.push({
             name: `products`, params: { id: card.id }, query: {
@@ -55,7 +54,6 @@ export default {
       userLang: 'uz',
       registerInfo: '',
       products: '',
-      test: '',
     }
   },
   methods: {
@@ -80,19 +78,16 @@ export default {
     },
     async getInfoFromTg() {
       const telegram = await window.Telegram.WebApp
-      const tg = await window.Telegram
-      const telegramData = await telegram.initDataUnsafe
+      const telegramData = await telegram.initData
+      telegram.expand()
 
       // if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
       //   this.isUserRegistered = `No info`
       // } else {
       if (telegram) {
         this.isUserRegistered = `No info`
-        this.test = 'test'
       } else {
-        telegram.expand()
-        this.isUserRegistered = telegram
-        this.test = tg
+        this.isUserRegistered = telegramData
         // this.getUserLang(telegramData.user.id)
       }
     },
