@@ -161,29 +161,30 @@ export default {
           item.price = parseInt(item.price.split(' ').join(''))
         });
 
-
         const telegram = await window.Telegram.WebApp;
         const telegramData = await telegram.initDataUnsafe;
-        // const userId = telegramData.user?.id;
-        const userId = 596968325
+        const userId = telegramData.user?.id;
+        // const userId = 596968325
         this.tgId = userId
 
         if (userId) {
-          try {
-            const payload = {
-              telegram_id: userId,
-              data: JSON.stringify(this.array),
-            };
-            await this.postData(payload);
-            this.clearCart();
-            telegram.expand()
-            telegram.close();
-            localStorage.clear();
-            this.$router.push({ name: 'home' });
-          } catch (error) {
-            console.error(error);
-          }
-          return
+          // try {
+          const payload = {
+            telegram_id: userId,
+            data: JSON.stringify(this.array),
+          };
+          this.$router.push({ name: 'home' });
+          localStorage.clear();
+          // if (res) {
+          telegram.expand()
+          telegram.close();
+          this.clearCart();
+          await this.postData(payload);
+          // }
+          // } catch (error) {
+          //   console.error(error);
+          // }
+          // return
         } else {
           telegram.sendData(JSON.stringify(this.array));
           telegram.expand();
