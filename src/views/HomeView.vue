@@ -80,7 +80,10 @@ export default {
       const telegram = await window.Telegram.WebApp
       const telegramData = await telegram.initDataUnsafe
 
-      if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
+      // if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
+      //   this.isUserRegistered = `No info`
+      // } else {
+      if (telegram) {
         this.isUserRegistered = `No info`
       } else {
         telegram.expand()
