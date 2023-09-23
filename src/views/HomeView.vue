@@ -84,7 +84,7 @@ export default {
         this.isUserRegistered = `No info`
       } else {
         telegram.expand()
-        this.isUserRegistered = telegram
+        this.isUserRegistered = telegramData
         // this.getUserLang(telegramData.user.id)
       }
     },
