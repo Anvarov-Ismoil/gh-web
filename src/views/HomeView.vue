@@ -23,7 +23,7 @@
             </span>
           </button>
         </div>
-        <pre>{{ isUserRegistered }}</pre>
+        <pre class="pl-4">{{ isUserRegistered }}</pre>
         <div class="flex flex-wrap justify-center items-stretch gap-x-5">
           <categoryCard v-for="card in data" :info="card" :key="card.id" :lang="this.userLang" @action="$router.push({
             name: `products`, params: { id: card.id }, query: {
@@ -81,7 +81,7 @@ export default {
       const telegramData = await telegram.initDataUnsafe
 
       if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
-        this.isUserRegistered = false
+        this.isUserRegistered = `No info`
       } else {
         telegram.expand()
         this.isUserRegistered = telegramData
