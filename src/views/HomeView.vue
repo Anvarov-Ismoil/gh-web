@@ -81,11 +81,24 @@ export default {
       const telegramData = await telegram.initData
       telegram.expand()
 
+      if (telegram) {
+      if (window.navigator.userAgent.indexOf("Windows") != -1) {
+        console.log("The user is running Windows");
+        this.isUserRegistered = `Windows`
+      } else if (window.navigator.userAgent.indexOf("Mac OS") != -1) {
+        console.log("The user is running Mac OS");
+        this.isUserRegistered = `Mac`
+      } else if (window.navigator.userAgent.indexOf("Linux") != -1) {
+        console.log("The user is running Linux");
+        this.isUserRegistered = `Linux`
+      } else {
+        console.log("The user's operating system could not be determined");
+        this.isUserRegistered = `No info`
+      }
+
       // if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
       //   this.isUserRegistered = `No info`
       // } else {
-      if (telegram) {
-        this.isUserRegistered = `No info`
       } else {
         this.isUserRegistered = telegramData
         // this.getUserLang(telegramData.user.id)
