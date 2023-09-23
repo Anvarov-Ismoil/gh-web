@@ -23,6 +23,7 @@
             </span>
           </button>
         </div>
+        <pre>{{ isUserRegistered }}</pre>
         <div class="flex flex-wrap justify-center items-stretch gap-x-5">
           <categoryCard v-for="card in data" :info="card" :key="card.id" :lang="this.userLang" @action="$router.push({
             name: `products`, params: { id: card.id }, query: {
@@ -69,12 +70,24 @@ export default {
     },
     setLang() {
       const localeLang = localStorage.getItem('tg-lang')
-      if(localeLang) {
+      if (localeLang) {
         this.userLang = localeLang
       } else {
         localStorage.setItem('tg-lang', this.userLang)
       }
-    }
+    },
+    async getInfoFromTg() {
+      const telegram = await window.Telegram.WebApp
+      const telegramData = await telegram.initDataUnsafe
+
+      if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
+        this.isUserRegistered = false
+      } else {
+        telegram.expand()
+        this.isUserRegistered = telegramData
+        // this.getUserLang(telegramData.user.id)
+      }
+    },
   },
   computed: {
     ...mapState(['data', 'cart', 'userId']),
@@ -93,6 +106,7 @@ export default {
   mounted() {
     this.fetchData()
     this.setLang()
+    this.getInfoFromTg()
   },
 }
 </script>

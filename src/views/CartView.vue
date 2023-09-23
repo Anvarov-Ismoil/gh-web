@@ -163,8 +163,8 @@ export default {
 
         const telegram = await window.Telegram.WebApp;
         const telegramData = await telegram.initDataUnsafe;
-        const userId = telegramData.user?.id;
-        // const userId = 596968325
+        // const userId = telegramData.user?.id;
+        const userId = 596968325
         this.tgId = userId
 
         if (userId) {
