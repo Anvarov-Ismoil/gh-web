@@ -24,7 +24,11 @@
           </button>
         </div>
         <pre class="text-center">{{ isUserRegistered }} </pre>
-        <div class="flex flex-wrap justify-center items-stretch gap-x-5">
+        <div>
+          <video autoplay muted src="../assets/images/IMG_0703.MP4"></video>
+          <video autoplay muted src="../assets/images/IMG_0705.MP4"></video>
+        </div>
+        <!-- <div class="flex flex-wrap justify-center items-stretch gap-x-5">
           <categoryCard v-for="card in data" :info="card" :key="card.id" :lang="this.userLang" @action="$router.push({
             name: `products`, params: { id: card.id }, query: {
               lang: this.userLang,
@@ -32,7 +36,7 @@
             }
           })" />
           <cartBtn :lang="this.userLang" />
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -82,23 +86,23 @@ export default {
       telegram.expand()
 
       if (telegram) {
-      if (window.navigator.userAgent.indexOf("Windows") != -1) {
-        console.log("The user is running Windows");
-        this.isUserRegistered = `Windows`
-      } else if (window.navigator.userAgent.indexOf("Mac OS") != -1) {
-        console.log("The user is running Mac OS");
-        this.isUserRegistered = `Mac`
-      } else if (window.navigator.userAgent.indexOf("Linux") != -1) {
-        console.log("The user is running Linux");
-        this.isUserRegistered = `Linux`
-      } else {
-        console.log("The user's operating system could not be determined");
-        this.isUserRegistered = `No info`
-      }
+        if (window.navigator.userAgent.indexOf("Windows") != -1) {
+          console.log("The user is running Windows");
+          this.isUserRegistered = `Windows`
+        } else if (window.navigator.userAgent.indexOf("Mac OS") != -1) {
+          console.log("The user is running Mac OS");
+          this.isUserRegistered = `Mac`
+        } else if (window.navigator.userAgent.indexOf("Linux") != -1) {
+          console.log("The user is running Linux");
+          this.isUserRegistered = `Linux`
+        } else {
+          console.log("The user's operating system could not be determined");
+          this.isUserRegistered = `No info`
+        }
 
-      // if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
-      //   this.isUserRegistered = `No info`
-      // } else {
+        // if (Object.keys(telegramData).length === 0 || typeof telegramData.user === 'undefined') {
+        //   this.isUserRegistered = `No info`
+        // } else {
       } else {
         this.isUserRegistered = telegramData
         // this.getUserLang(telegramData.user.id)
