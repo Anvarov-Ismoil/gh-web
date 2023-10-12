@@ -2,15 +2,30 @@ import {
   createRouter,
   createWebHistory
 } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(
     import.meta.env.BASE_URL),
   routes: [{
       path: '/',
+      query: {
+        userId: 'id',
+      },
       name: 'home',
-      component: HomeView
+      component: () => import('../views/HomeView.vue'),
+      beforeEnter: (to, from, next) => {
+        const userId = to.query.userId;
+        if (!userId) {
+          next('/error');
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: () => import('../views/ErrorView.vue')
     },
     {
       path: '/products/:id',

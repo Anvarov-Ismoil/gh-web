@@ -24,9 +24,11 @@
           </button>
         </div>
         <pre class="text-center">{{ isUserRegistered }} </pre>
+        <pre class="text-center">{{ isUserRegistered }} </pre>
+        <pre class="text-center">{{ isUserRegistered }} </pre>
         <div>
-          <video autoplay muted src="../assets/images/black.mp4"></video>
-          <video autoplay muted src="../assets/images/blue.mp4"></video>
+          <!-- <video autoplay muted src="../assets/images/black.mp4"></video> -->
+          <!-- <video autoplay muted src="../assets/images/blue.mp4"></video> -->
         </div>
         <!-- <div class="flex flex-wrap justify-center items-stretch gap-x-5">
           <categoryCard v-for="card in data" :info="card" :key="card.id" :lang="this.userLang" @action="$router.push({
