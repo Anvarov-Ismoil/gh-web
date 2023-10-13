@@ -24,8 +24,7 @@
           </button>
         </div>
         <pre class="text-center">{{ isUserRegistered }} </pre>
-        <pre class="text-center">{{ isUserRegistered }} </pre>
-        <pre class="text-center">{{ isUserRegistered }} </pre>
+        <pre class="text-center">{{ telegramUserID }} </pre>
         <div>
           <!-- <video autoplay muted src="../assets/images/black.mp4"></video> -->
           <!-- <video autoplay muted src="../assets/images/blue.mp4"></video> -->
@@ -60,6 +59,7 @@ export default {
       userLang: 'uz',
       registerInfo: '',
       products: '',
+      telegramUserID: '',
     }
   },
   methods: {
@@ -129,6 +129,7 @@ export default {
     this.fetchData()
     this.setLang()
     this.getInfoFromTg()
+    this.telegramUserID = this.$route.query.userId
   },
 }
 </script>
